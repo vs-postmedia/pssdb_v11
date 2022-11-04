@@ -23,7 +23,7 @@ import'./fonts/BentonSansCond-Bold.otf';
 // JS FUNCTIONS
 const init = async () => {
     // create dynamic list of options for agency select tag
-    createAgencyComboBox();
+    createAgencyComboBox(agenciesList);
 
     // create combobox filter for agencies
     Combobox('#combobox');
@@ -44,9 +44,14 @@ function comboboxChangeHandler(e) {
     loadCloudTable(filterValue);
 }
 
-function createAgencyComboBox() {
+function createAgencyComboBox(agenciesList) {
     let agenciesString = '';
-    agenciesList.forEach(d => {
+
+    // sort our list
+    const list = agenciesList.sort();
+    list.unshift('All agencies');
+
+    list.forEach(d => {
         agenciesString += `<option value='${d}'>${d}</option>`;
     });
     

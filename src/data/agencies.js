@@ -1,6 +1,5 @@
 const agenciesList = [
-    "All agencies",
-    "New West Police",
+"New West Police",
 "Transit Police",
 "Delta police",
 "Oak Bay police",
