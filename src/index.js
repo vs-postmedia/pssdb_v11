@@ -1,6 +1,7 @@
 import CloudTablesApi from 'cloudtables-api';
 import Combobox from './Components/Combobox/Combobox.js';
 import agenciesList from './data/agencies.js';
+import params from './data/params.js';
 
 // CSS
 import normalize from './css/normalize.css';
@@ -19,19 +20,7 @@ import'./fonts/BentonSansCond-Bold.otf';
 
 
 
-
-// VARS
-const appId = 'app';
-const agencyId = 'dp-9'; // find the ID for the agency column in the data page of your cloudtables dataset
-const tableId = 'cloudtable';
-const clientId = 'pssdb-v11';
-const cloudTableDomain = 'vs-postmedia.cloudtables.me';
-const apiKey = 'kcZqiHL7MiUCi1waLZYN1vkz'; // read-only
-const cloudTableId = 'fd3ab5e8-3064-11ed-a814-6bfc76c2745a'; 
-
-
-
-// JS
+// JS FUNCTIONS
 const init = async () => {
     // create dynamic list of options for agency select tag
     createAgencyComboBox();
@@ -67,7 +56,7 @@ function createAgencyComboBox() {
 async function loadCloudTable(agency) {
     let conditionsArray = [
         {
-            id: agencyId, 
+            id: params.agencyId, 
             value: agency
         }
     ];
@@ -76,9 +65,9 @@ async function loadCloudTable(agency) {
     let conditions = agency ? conditionsArray : null;
 
     // grab the ct api instance
-    let api = new CloudTablesApi(apiKey, {
-        clientName: clientId,     // Client's name - optional
-        domain: cloudTableDomain,       // Your CloudTables host
+    let api = new CloudTablesApi(params.apiKey, {
+        clientName: params.clientId,     // Client's name - optional
+        domain: params.cloudTableDomain,       // Your CloudTables host
         // secure: false,              // Disallow (true), or allow (false) self-signed certificates   
         // ssl: false,               // Disable https
         conditions: conditions      // Use this to filter table
@@ -89,13 +78,13 @@ async function loadCloudTable(agency) {
     let token = await api.token();
     // build the script tag for the table
     let script = document.createElement('script');
-    script.src = `https://${cloudTableDomain}/io/loader/${cloudTableId}/table/d`;
+    script.src = `https://${params.cloudTableDomain}/io/loader/${params.cloudTableId}/table/d`;
     script.setAttribute('data-token', token);
-    script.setAttribute('data-insert', tableId);
-    script.setAttribute('data-clientId', clientId);
+    script.setAttribute('data-insert', params.tableId);
+    script.setAttribute('data-clientId', params.clientId);
 
     // insert the script tag to load the table
-    let app = document.getElementById(appId).appendChild(script);
+    let app = document.getElementById(params.appId).appendChild(script);
 }
 
 // KICK *SHT OFF!!!
