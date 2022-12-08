@@ -124,6 +124,7 @@ function setupAgencyCombobox(combobox) {
         this.element.hide();
         this._createAutocomplete();
         this._createShowAllButton();
+        this.stored_input;
       },
       _createAutocomplete: function _createAutocomplete() {
         var selected = this.element.children(':selected'),
@@ -137,6 +138,25 @@ function setupAgencyCombobox(combobox) {
             'ui-tooltip': 'ui-state-highlight'
           }
         });
+
+        // clear the input on focus
+        this._on(this.input, {
+          focus: function focus(event, ui) {
+            // store current value
+            this.stored_input = this.input[0].value;
+            // clear input text
+            this.input[0].value = '';
+          }
+        });
+        this._on(this.input, {
+          focusout: function focusout(event, ui) {
+            ;
+            // reset stored value if blank
+            if (this.input[0].value == '') {
+              this.input[0].value = this.stored_input;
+            }
+          }
+        });
         this._on(this.input, {
           autocompleteselect: function autocompleteselect(event, ui) {
             ui.item.option.selected = true;
@@ -145,6 +165,10 @@ function setupAgencyCombobox(combobox) {
             });
             // trigger change event
             $('#combobox').trigger('change');
+
+            // clear input focus
+            this.stored_input = null;
+            this.input[0].blur();
           },
           autocompletechange: '_removeIfInvalid'
         });
