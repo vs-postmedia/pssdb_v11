@@ -17,3 +17,8 @@
 #filters .custom-combobox-input {
   font-family: 'BentonSansCond-RegItalic';
 }
+
+.ui-widget.ui-widget-content {
+  max-height: 300px;
+  overflow-y: auto;
+}

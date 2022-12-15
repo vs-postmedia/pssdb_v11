@@ -143,7 +143,7 @@ function setupAgencyCombobox(combobox) {
             // Remove invalid value
             this.input
               .val('')
-              .attr('title','No matches')
+              // .attr('title','No matches')
               .tooltip('open');
             this.element.val('');
             this._delay(function() {
