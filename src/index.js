@@ -19,9 +19,16 @@ import'./fonts/BentonSansCond-RegItalic.otf';
 import'./fonts/BentonSansCond-Bold.otf';
 
 
+// VARS
+let server;
+
 
 // JS FUNCTIONS
 const init = async () => {
+    // assign server - HACKY!!!
+    server = await assignServer(params);
+    // console.log(server);
+
     // create dynamic list of options for agency select tag
     createAgencyComboBox(agenciesList);
 
@@ -32,6 +39,21 @@ const init = async () => {
     // load the unfiltered cloudtable
     loadCloudTable('');
 };
+
+// super hack "load balancer"
+function assignServer(params) {
+    let server;
+    const date = new Date();
+    const current_min = date.getMinutes();
+
+    if (current_min % 2 == 0) {
+        server = params.cloudTableDomain;
+    } else {
+        server = params.cloudTableDomain_v2;
+    }
+
+    return server;
+}
 
 function comboboxChangeHandler(e) {
     // reset container dom element
@@ -72,7 +94,8 @@ async function loadCloudTable(agency) {
     // grab the ct api instance
     let api = new CloudTablesApi(params.apiKey, {
         clientName: params.clientId,     // Client's name - optional
-        domain: params.cloudTableDomain,       // Your CloudTables host
+        domain: server,                 // CloudTables host
+        // domain: params.cloudTableDomain,       // Your CloudTables host
         // secure: false,              // Disallow (true), or allow (false) self-signed certificates   
         // ssl: false,               // Disable https
         conditions: conditions      // Use this to filter table
@@ -83,7 +106,7 @@ async function loadCloudTable(agency) {
     let token = await api.token();
     // build the script tag for the table
     let script = document.createElement('script');
-    script.src = `https://${params.cloudTableDomain}/io/loader/${params.cloudTableId}/table/d`;
+    script.src = `https://${server}/io/loader/${params.cloudTableId}/table/d`;
     script.setAttribute('data-token', token);
     script.setAttribute('data-insert', params.tableId);
     script.setAttribute('data-clientId', params.clientId);
