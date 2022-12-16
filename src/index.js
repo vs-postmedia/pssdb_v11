@@ -25,9 +25,10 @@ let server;
 
 // JS FUNCTIONS
 const init = async () => {
-    // assign server - HACKY!!!
+    server = params.cloudTableDomain;
+    
+    // assign server - HACK!!! DISABLE WHEN TRAFFIC DROPS
     server = await assignServer(params);
-    // console.log(server);
 
     // create dynamic list of options for agency select tag
     createAgencyComboBox(agenciesList);
