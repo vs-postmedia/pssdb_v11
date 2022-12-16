@@ -266,8 +266,8 @@ var params = {
   // below here probably won’t change 
   tableId: 'cloudtable',
   // DOM element for the table
-  cloudTableDomain: 'vs-postmedia.cloudtables.me',
-  // cloudTableDomain: 'postmedia.cloudtables.me',
+  cloudTableDomain: 'postmedia.cloudtables.me',
+  cloudTableDomain_v2: 'vs-postmedia-a.cloudtables.me',
   apiKey: 'kcZqiHL7MiUCi1waLZYN1vkz' // read-only    
 };
 
@@ -327,6 +327,9 @@ var cloudtable = __webpack_require__(170);
 
 
 
+// VARS
+var server;
+
 // JS FUNCTIONS
 var init = /*#__PURE__*/function () {
   var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
@@ -334,6 +337,12 @@ var init = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            _context.next = 2;
+            return assignServer(data_params);
+          case 2:
+            server = _context.sent;
+            // console.log(server);
+
             // create dynamic list of options for agency select tag
             createAgencyComboBox(agencies);
 
@@ -343,7 +352,7 @@ var init = /*#__PURE__*/function () {
 
             // load the unfiltered cloudtable
             loadCloudTable('');
-          case 4:
+          case 7:
           case "end":
             return _context.stop();
         }
@@ -354,6 +363,19 @@ var init = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
+
+// super hack "load balancer"
+function assignServer(params) {
+  var server;
+  var date = new Date();
+  var current_min = date.getMinutes();
+  if (current_min % 2 == 0) {
+    server = params.cloudTableDomain;
+  } else {
+    server = params.cloudTableDomain_v2;
+  }
+  return server;
+}
 function comboboxChangeHandler(e) {
   // reset container dom element
   $('.cloudtables')[0].textContent = '';
@@ -393,8 +415,9 @@ function _loadCloudTable() {
             api = new CloudTablesApi_default.a(data_params.apiKey, {
               clientName: data_params.clientId,
               // Client's name - optional
-              domain: data_params.cloudTableDomain,
-              // Your CloudTables host
+              domain: server,
+              // CloudTables host
+              // domain: params.cloudTableDomain,       // Your CloudTables host
               // secure: false,              // Disallow (true), or allow (false) self-signed certificates   
               // ssl: false,               // Disable https
               conditions: conditions // Use this to filter table
@@ -405,7 +428,7 @@ function _loadCloudTable() {
             token = _context2.sent;
             // build the script tag for the table
             script = document.createElement('script');
-            script.src = "https://".concat(data_params.cloudTableDomain, "/io/loader/").concat(data_params.cloudTableId, "/table/d");
+            script.src = "https://".concat(server, "/io/loader/").concat(data_params.cloudTableId, "/table/d");
             script.setAttribute('data-token', token);
             script.setAttribute('data-insert', data_params.tableId);
             script.setAttribute('data-clientId', data_params.clientId);
