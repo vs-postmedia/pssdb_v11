@@ -266,8 +266,8 @@ var params = {
   // below here probably won’t change 
   tableId: 'cloudtable',
   // DOM element for the table
-  // cloudTableDomain: 'vs-postmedia.cloudtables.me',
-  cloudTableDomain: 'postmedia.cloudtables.me',
+  cloudTableDomain: 'vs-postmedia.cloudtables.me',
+  // cloudTableDomain: 'postmedia.cloudtables.me',
   apiKey: 'kcZqiHL7MiUCi1waLZYN1vkz' // read-only    
 };
 
