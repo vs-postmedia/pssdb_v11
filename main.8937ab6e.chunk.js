@@ -337,7 +337,7 @@ var init = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            server = data_params.cloudTableDomain_v2;
+            server = data_params.cloudTableDomain;
 
             // assign server - HACK!!! DISABLE WHEN TRAFFIC DROPS
             _context.next = 3;
