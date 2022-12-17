@@ -340,10 +340,8 @@ var init = /*#__PURE__*/function () {
             server = data_params.cloudTableDomain_v2;
 
             // assign server - HACK!!! DISABLE WHEN TRAFFIC DROPS
-            _context.next = 3;
-            return assignServer(data_params);
-          case 3:
-            server = _context.sent;
+            // server = await assignServer(params);
+
             // create dynamic list of options for agency select tag
             createAgencyComboBox(agencies);
 
@@ -353,7 +351,7 @@ var init = /*#__PURE__*/function () {
 
             // load the unfiltered cloudtable
             loadCloudTable('');
-          case 8:
+          case 5:
           case "end":
             return _context.stop();
         }
