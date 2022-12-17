@@ -40,7 +40,7 @@ const agenciesList = [
 "TransLink",
 "WorkSafe B.C.",
 "City of Abbotsford",
-"Anmore",
+"Village of Anmore",
 "Belcarra",
 "Bowen Island",
 "Lions Bay",
