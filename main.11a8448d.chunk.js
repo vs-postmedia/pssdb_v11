@@ -266,8 +266,8 @@ var params = {
   // below here probably won’t change 
   tableId: 'cloudtable',
   // DOM element for the table
-  cloudTableDomain: 'postmedia.cloudtables.me',
-  cloudTableDomain_v2: 'vs-postmedia-a.cloudtables.me',
+  cloudTableDomain: 'vs-postmedia-a.cloudtables.me',
+  serverPool: ['vs-postmedia-a.cloudtables.me', 'vs-postmedia-b.cloudtables.me'],
   apiKey: 'kcZqiHL7MiUCi1waLZYN1vkz' // read-only    
 };
 
@@ -329,6 +329,7 @@ var cloudtable = __webpack_require__(170);
 
 // VARS
 var server;
+var serverPool;
 
 // JS FUNCTIONS
 var init = /*#__PURE__*/function () {
@@ -337,13 +338,12 @@ var init = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            // assign server - HACK!!! DISABLE WHEN TRAFFIC DROPS
+            // serverPool = params.serverPool;
+            // server = await assignServer(serverPool);
+
             server = data_params.cloudTableDomain;
 
-            // assign server - HACK!!! DISABLE WHEN TRAFFIC DROPS
-            _context.next = 3;
-            return assignServer(data_params);
-          case 3:
-            server = _context.sent;
             // create dynamic list of options for agency select tag
             createAgencyComboBox(agencies);
 
@@ -353,7 +353,7 @@ var init = /*#__PURE__*/function () {
 
             // load the unfiltered cloudtable
             loadCloudTable('');
-          case 8:
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -365,16 +365,25 @@ var init = /*#__PURE__*/function () {
   };
 }();
 
-// super hack "load balancer"
-function assignServer(params) {
+// super-hack "load balancer"
+function assignServer(serverPool) {
   var server;
-  var date = new Date();
-  var current_min = date.getMinutes();
-  if (current_min % 2 == 0) {
-    server = params.cloudTableDomain;
+  // const date = new Date();
+  // const current_min = date.getMinutes();
+
+  // if (current_min % 2 == 0) {
+  //     server = params.cloudTableDomain;
+  // } else {
+  //     server = params.cloudTableDomain_v2;
+  // }
+  if (serverPool.length == 0) {
+    // re-assign server pool & pull sever from pool
   } else {
-    server = params.cloudTableDomain_v2;
+    // pull server from pool
+    server = serverPool.pop();
   }
+
+  // return server
   return server;
 }
 function comboboxChangeHandler(e) {
