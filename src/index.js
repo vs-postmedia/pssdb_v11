@@ -21,14 +21,16 @@ import'./fonts/BentonSansCond-Bold.otf';
 
 // VARS
 let server;
+let serverPool;
 
 
 // JS FUNCTIONS
 const init = async () => {
-    server = params.cloudTableDomain;
-    
     // assign server - HACK!!! DISABLE WHEN TRAFFIC DROPS
-    server = await assignServer(params);
+    // serverPool = params.serverPool;
+    // server = await assignServer(serverPool);
+
+    server = params.cloudTableDomain;
 
     // create dynamic list of options for agency select tag
     createAgencyComboBox(agenciesList);
@@ -41,18 +43,25 @@ const init = async () => {
     loadCloudTable('');
 };
 
-// super hack "load balancer"
-function assignServer(params) {
+// super-hack "load balancer"
+function assignServer(serverPool) {
     let server;
-    const date = new Date();
-    const current_min = date.getMinutes();
+    // const date = new Date();
+    // const current_min = date.getMinutes();
 
-    if (current_min % 2 == 0) {
-        server = params.cloudTableDomain;
+    // if (current_min % 2 == 0) {
+    //     server = params.cloudTableDomain;
+    // } else {
+    //     server = params.cloudTableDomain_v2;
+    // }
+    if (serverPool.length == 0) {
+        // re-assign server pool & pull sever from pool
     } else {
-        server = params.cloudTableDomain_v2;
+        // pull server from pool
+        server = serverPool.pop();
     }
 
+    // return server
     return server;
 }
 
@@ -103,6 +112,7 @@ async function loadCloudTable(agency) {
     });
 
 
+    console.log(`https://${server}/io/loader/${params.cloudTableId}/table/d`)
     // get a cloudtables api token
     let token = await api.token();
     // build the script tag for the table
