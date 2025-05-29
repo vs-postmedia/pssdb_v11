@@ -1,6 +1,6 @@
 {
-  "name": "pssdb-v11",
-  "homepage": "https://vs-postmedia.github.io/pssdb-v11/",
+  "name": "pssdb-v12",
+  "homepage": "https://vs-postmedia.github.io/pssdb-v12/",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config=config/webpack.prod.config.js",
     "deploy": "gh-pages -d dist",
-    "start": "webpack-dev-server --open --watch true --config=config/webpack.dev.config.js"
+    "start": "webpack-dev-server --openssl-legacy-provider --open --watch true --config=config/webpack.dev.config.js"
   },
   "keywords": [],
   "author": "",
