@@ -257,20 +257,22 @@ var agenciesList = ["New West Police", "Transit Police", "Delta police", "Oak Ba
 // CONCATENATED MODULE: ./src/data/params.js
 var params = {
   appId: 'app',
-  agencyId: 'dp-9',
+  agencyId: 'dp-57',
   // find in the data page of your cloudtables dataset
-  clientId: 'pssdb-v11',
+  clientId: 'pssdb-v12',
   // unique for each dataset
-  cloudTableId: 'fd3ab5e8-3064-11ed-a814-6bfc76c2745a',
+  cloudTableId: '2e623496-3cb7-11f0-a98a-738f477aee66',
   // find in embed tab
   // below here probably won’t change 
   tableId: 'cloudtable',
   // DOM element for the table
   cloudTableDomain: 'vs-postmedia-a.cloudtables.me',
-  serverPool: ['vs-postmedia-a.cloudtables.me', 'vs-postmedia-b.cloudtables.me'],
+  // should probably have 3-4 servers in the pool...
+  serverPool: ['vs-postmedia-a.cloudtables.me'
+  // 'vs-postmedia-b.cloudtables.me'
+  ],
   apiKey: 'kcZqiHL7MiUCi1waLZYN1vkz' // read-only    
 };
-
 /* harmony default export */ var data_params = (params);
 // EXTERNAL MODULE: ./src/css/normalize.css
 var normalize = __webpack_require__(165);
@@ -333,7 +335,7 @@ var serverPool;
 
 // JS FUNCTIONS
 var init = /*#__PURE__*/function () {
-  var _ref = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
+  var _ref = asyncToGenerator_default()(/*#__PURE__*/regenerator_default.a.mark(function _callee() {
     return regenerator_default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -411,7 +413,7 @@ function loadCloudTable(_x) {
   return _loadCloudTable.apply(this, arguments);
 } // KICK *SHT OFF!!!
 function _loadCloudTable() {
-  _loadCloudTable = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2(agency) {
+  _loadCloudTable = asyncToGenerator_default()(/*#__PURE__*/regenerator_default.a.mark(function _callee2(agency) {
     var conditionsArray, conditions, api, token, script, app;
     return regenerator_default.a.wrap(function _callee2$(_context2) {
       while (1) {
@@ -431,10 +433,12 @@ function _loadCloudTable() {
               // secure: false,              // Disallow (true), or allow (false) self-signed certificates   
               // ssl: false,               // Disable https
               conditions: conditions // Use this to filter table
-            }); // get a cloudtables api token
-            _context2.next = 5;
+            });
+            console.log("https://".concat(server, "/io/loader/").concat(data_params.cloudTableId, "/table/d"));
+            // get a cloudtables api token
+            _context2.next = 6;
             return api.token();
-          case 5:
+          case 6:
             token = _context2.sent;
             // build the script tag for the table
             script = document.createElement('script');
@@ -445,7 +449,7 @@ function _loadCloudTable() {
 
             // insert the script tag to load the table
             app = document.getElementById(data_params.appId).appendChild(script);
-          case 12:
+          case 13:
           case "end":
             return _context2.stop();
         }
