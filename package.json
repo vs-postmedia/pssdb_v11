@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config=config/webpack.prod.config.js",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --config=config/webpack.prod.config.js",
     "deploy": "gh-pages -d dist",
     "start": "webpack-dev-server --openssl-legacy-provider --open --watch true --config=config/webpack.dev.config.js"
   },
